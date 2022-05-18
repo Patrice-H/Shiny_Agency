@@ -1,26 +1,9 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
-import DefaultPicture from '../../assets/profile.png';
-
-const freelanceProfiles = [
-  {
-    name: 'Jane Doe',
-    jobTitle: 'Devops',
-    picture: DefaultPicture,
-  },
-  {
-    name: 'John Doe',
-    jobTitle: 'Developpeur frontend',
-    picture: DefaultPicture,
-  },
-  {
-    name: 'Jeanne Biche',
-    jobTitle: 'Développeuse Fullstack',
-    picture: DefaultPicture,
-  },
-];
+import { Loader } from '../../utils/Atoms';
 
 const StyledTitle = styled.h1`
   font-size: 30px;
@@ -32,6 +15,7 @@ const StyledPromise = styled.p`
   color: ${colors.secondary};
   width: fit-content;
   margin: 50px auto 100px;
+  padding: 0 30px;
 `;
 const CardsContainer = styled.div`
   display: flex;
@@ -43,6 +27,21 @@ const CardsContainer = styled.div`
 `;
 
 const Freelances = () => {
+  const [profiles, setProfiles] = useState({});
+  const [isDataLoading, setDataLoading] = useState(false);
+  useEffect(() => {
+    setDataLoading(true);
+    fetch(`http://localhost:8000/freelances`).then((response) =>
+      response
+        .json()
+        .then(({ freelancersList }) => {
+          setProfiles(freelancersList);
+          setDataLoading(false);
+        })
+        .catch((error) => console.log(error))
+    );
+  }, []);
+
   return (
     <>
       <Header />
@@ -50,16 +49,20 @@ const Freelances = () => {
       <StyledPromise>
         Chez Shiny nous réunissons les meilleurs profils pour vous.
       </StyledPromise>
-      <CardsContainer>
-        {freelanceProfiles.map((profile, index) => (
-          <Card
-            key={`${profile.name}-${index}`}
-            label={profile.jobTitle}
-            picture={profile.picture}
-            title={profile.name}
-          />
-        ))}
-      </CardsContainer>
+      {isDataLoading ? (
+        <Loader />
+      ) : (
+        <CardsContainer>
+          {profiles.map((profile, index) => (
+            <Card
+              key={`${profile.name}-${index}`}
+              label={profile.job}
+              picture={profile.picture}
+              title={profile.name}
+            />
+          ))}
+        </CardsContainer>
+      )}
     </>
   );
 };
