@@ -27,7 +27,7 @@ const CardsContainer = styled.div`
 `;
 
 const Freelances = () => {
-  const [profiles, setProfiles] = useState({});
+  const [profiles, setProfiles] = useState([]);
   const [isDataLoading, setDataLoading] = useState(false);
   useEffect(() => {
     setDataLoading(true);
