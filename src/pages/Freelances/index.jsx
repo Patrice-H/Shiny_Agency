@@ -4,6 +4,7 @@ import colors from '../../utils/style/colors';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import { Loader } from '../../utils/Atoms';
+import Footer from '../../components/Footer';
 
 const StyledTitle = styled.h1`
   font-size: 30px;
@@ -63,6 +64,7 @@ const Freelances = () => {
           ))}
         </CardsContainer>
       )}
+      <Footer />
     </>
   );
 };

@@ -4,11 +4,12 @@ import colors from '../../utils/style/colors';
 import { ReactComponent as Svg } from '../../assets/home-illustration.svg';
 import Header from '../../components/Header';
 import './App.css';
+import Footer from '../../components/Footer';
 
 const HomeContainer = styled.div`
   margin: 0 50px;
   background-color: ${colors.backgroundLight};
-  position: absolute;
+  position: relative;
   display: flex;
   padding-bottom: 140px;
   justify-content: space-between;
@@ -90,6 +91,7 @@ function Home() {
           <Svg />
         </HomeImg>
       </HomeContainer>
+      <Footer />
     </>
   );
 }

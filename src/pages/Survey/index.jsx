@@ -5,6 +5,7 @@ import colors from '../../utils/style/colors';
 import Header from '../../components/Header';
 import { Loader } from '../../utils/Atoms';
 import './Survey.css';
+import Footer from '../../components/Footer';
 
 const QuestionTitle = styled.h2`
   text-decoration: underline;
@@ -59,6 +60,7 @@ const Survey = () => {
           <Link to={nextLink}>Suivant</Link>
         )}
       </nav>
+      <Footer />
     </>
   );
 };
