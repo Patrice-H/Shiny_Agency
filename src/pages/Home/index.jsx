@@ -1,14 +1,16 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ThemeContext } from '../../utils/context';
 import colors from '../../utils/style/colors';
 import { ReactComponent as Svg } from '../../assets/home-illustration.svg';
 import Header from '../../components/Header';
-import './App.css';
 import Footer from '../../components/Footer';
 
 const HomeContainer = styled.div`
   margin: 0 50px;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ isDarkMode }) =>
+    isDarkMode ? colors.backgroundDark : colors.backgroundLight};
   position: relative;
   display: flex;
   padding-bottom: 140px;
@@ -74,10 +76,12 @@ const StyledLink = styled(Link)`
 `;
 
 function Home() {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <>
       <Header />
-      <HomeContainer>
+      <HomeContainer isDarkMode={theme === 'dark'}>
         <LeftPart>
           <HomeTitle>
             Repérez vos besoins, on s’occupe du reste, avec les meilleurs

@@ -1,10 +1,13 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { ThemeContext } from '../../utils/context';
 import colors from '../../utils/style/colors';
 import { ReactComponent as Svg } from '../../assets/404.svg';
 
 const ErrorContainer = styled.div`
   margin: 0 50px;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ isDarkMode }) =>
+    isDarkMode ? colors.backgroundDark : colors.backgroundLight};
   padding: 40px 0 100px;
   @media (max-width: 768px) {
     margin: 40px 0;
@@ -22,8 +25,10 @@ const ErrorImg = styled.div`
 `;
 
 const Error = () => {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <ErrorContainer>
+    <ErrorContainer isDarkMode={theme === 'dark'}>
       <ErrorText>Oups...</ErrorText>
       <ErrorImg>
         <Svg />

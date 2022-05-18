@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { ThemeContext } from '../../utils/context';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import DefaultPicture from '../../assets/profile.png';
@@ -8,7 +10,8 @@ const CardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 15px;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ isDarkMode }) =>
+    isDarkMode ? colors.backgroundDark : colors.backgroundLight};
   border-radius: 30px;
   width: 340px;
   height: 335px;
@@ -35,8 +38,10 @@ const CardTitle = styled.span`
 `;
 
 const Card = ({ label, title, picture }) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <CardWrapper>
+    <CardWrapper isDarkMode={theme === 'dark'}>
       <CardLabel>{label}</CardLabel>
       <CardImage src={picture} alt="freelance" />
       <CardTitle>{title}</CardTitle>
