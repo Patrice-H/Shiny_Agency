@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
+import { useFetch } from '../../utils/hooks';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import { Loader } from '../../utils/Atoms';
@@ -28,20 +28,12 @@ const CardsContainer = styled.div`
 `;
 
 const Freelances = () => {
-  const [profiles, setProfiles] = useState([]);
-  const [isDataLoading, setDataLoading] = useState(false);
-  useEffect(() => {
-    setDataLoading(true);
-    fetch(`http://localhost:8000/freelances`).then((response) =>
-      response
-        .json()
-        .then(({ freelancersList }) => {
-          setProfiles(freelancersList);
-          setDataLoading(false);
-        })
-        .catch((error) => console.log(error))
-    );
-  }, []);
+  const { data, isDataLoading, error } = useFetch(
+    `http://localhost:8000/freelances`
+  );
+  const profiles = data.freelancersList;
+
+  if (error) return <span>Désolé il y a eu un problème !</span>;
 
   return (
     <>
@@ -54,14 +46,15 @@ const Freelances = () => {
         <Loader />
       ) : (
         <CardsContainer>
-          {profiles.map((profile, index) => (
-            <Card
-              key={`${profile.name}-${index}`}
-              label={profile.job}
-              picture={profile.picture}
-              title={profile.name}
-            />
-          ))}
+          {profiles &&
+            profiles.map((profile, index) => (
+              <Card
+                key={`${profile.name}-${index}`}
+                label={profile.job}
+                picture={profile.picture}
+                title={profile.name}
+              />
+            ))}
         </CardsContainer>
       )}
       <Footer />

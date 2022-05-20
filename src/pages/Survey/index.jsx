@@ -1,10 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
+import { SurveyContext } from '../../utils/context';
+import { useFetch } from '../../utils/hooks';
 import Header from '../../components/Header';
 import { Loader } from '../../utils/Atoms';
-import './Survey.css';
 import Footer from '../../components/Footer';
 
 const QuestionTitle = styled.h2`
@@ -21,27 +22,50 @@ const QuestionContent = styled.div`
   margin: 30px auto;
   padding: 0 30px;
 `;
+const LinkWrapper = styled.nav`
+  width: fit-content;
+  margin: 30px auto;
+  & a {
+    margin-left: 20px;
+  }
+`;
+const ReplyBox = styled.button`
+  border: none;
+  height: 100px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.backgroundLight};
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: ${(props) =>
+    props.isSelected ? `0px 0px 0px 2px ${colors.primary} inset` : 'none'};
+  &:first-child {
+    margin-right: 15px;
+  }
+  &:last-of-type {
+    margin-left: 15px;
+  }
+`;
+const ReplyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
 
 const Survey = () => {
   const { questionPage } = useParams();
   const questionNumber = parseInt(questionPage);
   const previousLink = `/survey/${questionNumber - 1}`;
   const nextLink = `/survey/${questionNumber + 1}`;
-  const [questions, setQuestions] = useState({});
-  const [isDataLoading, setDataLoading] = useState(false);
+  const { answers, saveAnswers } = useContext(SurveyContext);
+  const { data, isDataLoading } = useFetch(`http://localhost:8000/survey`);
+  const { surveyData } = data;
 
-  useEffect(() => {
-    setDataLoading(true);
-    fetch(`http://localhost:8000/survey`).then((response) =>
-      response
-        .json()
-        .then(({ surveyData }) => {
-          setQuestions(surveyData);
-          setDataLoading(false);
-        })
-        .catch((error) => console.log(error))
-    );
-  }, []);
+  const saveReply = (answer) => {
+    saveAnswers({ [questionNumber]: answer });
+  };
 
   return (
     <>
@@ -50,16 +74,32 @@ const Survey = () => {
       {isDataLoading ? (
         <Loader />
       ) : (
-        <QuestionContent>{questions[questionNumber]}</QuestionContent>
+        <QuestionContent>
+          {surveyData && surveyData[questionNumber]}
+        </QuestionContent>
       )}
-      <nav className="survey-navbar">
+      <ReplyWrapper>
+        <ReplyBox
+          onClick={() => saveReply(true)}
+          isSelected={answers[questionNumber] === true}
+        >
+          Oui
+        </ReplyBox>
+        <ReplyBox
+          onClick={() => saveReply(false)}
+          isSelected={answers[questionNumber] === false}
+        >
+          Non
+        </ReplyBox>
+      </ReplyWrapper>
+      <LinkWrapper>
         {questionNumber <= 1 ? null : <Link to={previousLink}>Précédent</Link>}
-        {questionNumber >= 10 ? (
+        {questionNumber >= 6 ? (
           <Link to="/results">Résultats</Link>
         ) : (
           <Link to={nextLink}>Suivant</Link>
         )}
-      </nav>
+      </LinkWrapper>
       <Footer />
     </>
   );
