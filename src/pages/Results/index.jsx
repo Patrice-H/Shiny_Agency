@@ -8,6 +8,7 @@ import colors from '../../utils/style/colors';
 import Header from '../../components/Header';
 import { Loader } from '../../utils/Atoms';
 import Footer from '../../components/Footer';
+import { ReactComponent as Svg } from '../../assets/undraw_missed_chances.svg';
 
 const ResultsContainer = styled.div`
   position: relative;
@@ -16,9 +17,13 @@ const ResultsContainer = styled.div`
   padding-bottom: 90px;
   background-color: ${({ isDarkMode }) =>
     isDarkMode ? colors.backgroundDark : colors.backgroundLight};
+  @media (max-width: 768px) {
+    margin: 40px 0 0;
+  }
 `;
 const ResultsTitle = styled.h1`
   font-size: 31px;
+  text-align: center;
   width: 470px;
   margin: auto;
   @media (max-width: 992px) {
@@ -60,6 +65,17 @@ const StyledLink = styled(Link)`
     `color: white; border-radius: 30px; background-color: ${colors.primary};`}
   text-decoration: none;
 `;
+const UnfortunateImg = styled.div`
+  width: 61%;
+  margin: 20px auto;
+`;
+const UnfortunateText = styled.p`
+  font-size: 20px;
+  text-align: center;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : 'black')};
+  width: 335px;
+  margin: auto;
+`;
 
 const Results = () => {
   const { answers } = useContext(SurveyContext);
@@ -92,9 +108,15 @@ const Results = () => {
       ) : (
         <ResultsContainer isDarkMode={theme === 'dark'}>
           <ResultsTitle>
-            <CommonTitle isDarkMode={theme === 'dark'}>
-              Les compétences dont vous avez besoin :
-            </CommonTitle>
+            {results && results.length === 0 ? (
+              <CommonTitle isDarkMode={theme === 'dark'}>
+                Dommage...
+              </CommonTitle>
+            ) : (
+              <CommonTitle isDarkMode={theme === 'dark'}>
+                Les compétences dont vous avez besoin :
+              </CommonTitle>
+            )}
             {results &&
               results.map((result, index) =>
                 index < results.length - 1 ? (
@@ -114,11 +136,23 @@ const Results = () => {
                 )
               )}
           </ResultsTitle>
-          <StyledLink to="/freelances" $isFullLink>
-            Découvrez nos profils
-          </StyledLink>
+          {results && results.length === 0 ? (
+            <>
+              <UnfortunateImg>
+                <Svg />
+              </UnfortunateImg>
+              <UnfortunateText isDarkMode={theme === 'dark'}>
+                Il semblerait que vous n’ayez besoin d’aucune compétence
+              </UnfortunateText>
+            </>
+          ) : (
+            <StyledLink to="/freelances" $isFullLink>
+              Découvrez nos profils
+            </StyledLink>
+          )}
           <ResultsContents>
             {results &&
+              results.length > 0 &&
               results.map((result, index) => (
                 <ResultWrapper key={`${result.title}2-${index}`}>
                   <ResultTitle isDarkMode={theme === 'dark'}>
