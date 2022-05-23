@@ -77,21 +77,35 @@ const UnfortunateText = styled.p`
   margin: auto;
 `;
 
+export const switchTitle = (resultsCount) => {
+  if (resultsCount > 0) {
+    return 'Les compétences dont vous avez besoin :';
+  }
+  return 'Dommage...';
+};
+
+export const formatJobList = (jobTitle, jobListLenght, index) => {
+  if (index === jobListLenght - 1) {
+    return `${jobTitle}`;
+  }
+
+  return `${jobTitle},`;
+};
+
+export const formatAnswersParams = (rawData) => {
+  const Data = Object.values(rawData);
+  let params = '';
+  let separator;
+  Data.forEach((data, index) => {
+    index < Data.length - 1 ? (separator = '&') : (separator = '');
+    params += `a${index + 1}=${data}${separator}`;
+  });
+  return params;
+};
+
 const Results = () => {
   const { answers } = useContext(SurveyContext);
   const { theme } = useContext(ThemeContext);
-
-  const formatAnswersParams = (rawData) => {
-    const Data = Object.values(rawData);
-    let params = '';
-    let separator;
-    Data.forEach((data, index) => {
-      index < Data.length - 1 ? (separator = '&') : (separator = '');
-      params += `a${index + 1}=${data}${separator}`;
-    });
-    return params;
-  };
-
   const answersParams = formatAnswersParams(answers);
   const { data, isDataLoading, error } = useFetch(
     `http://localhost:8000/results/?${answersParams}`
@@ -108,33 +122,20 @@ const Results = () => {
       ) : (
         <ResultsContainer isDarkMode={theme === 'dark'}>
           <ResultsTitle>
-            {results && results.length === 0 ? (
+            {results && (
               <CommonTitle isDarkMode={theme === 'dark'}>
-                Dommage...
-              </CommonTitle>
-            ) : (
-              <CommonTitle isDarkMode={theme === 'dark'}>
-                Les compétences dont vous avez besoin :
+                {switchTitle(results.length)}
               </CommonTitle>
             )}
             {results &&
-              results.map((result, index) =>
-                index < results.length - 1 ? (
-                  <DataTitle
-                    key={`${result.title}1-${index}`}
-                    isDarkMode={theme === 'dark'}
-                  >
-                    {` ${result.title} ,`}
-                  </DataTitle>
-                ) : (
-                  <DataTitle
-                    key={`${result.title}1-${index}`}
-                    isDarkMode={theme === 'dark'}
-                  >
-                    {` ${result.title}`}
-                  </DataTitle>
-                )
-              )}
+              results.map((result, index) => (
+                <DataTitle
+                  key={`${result.title}1-${index}`}
+                  isDarkMode={theme === 'dark'}
+                >
+                  {` ${formatJobList(result.title, results.length, index)}`}
+                </DataTitle>
+              ))}
           </ResultsTitle>
           {results && results.length === 0 ? (
             <>
