@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import { useFetch } from '../../utils/hooks';
+import { ThemeContext } from '../../utils/context';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import { Loader } from '../../utils/Atoms';
@@ -8,12 +10,13 @@ import Footer from '../../components/Footer';
 
 const StyledTitle = styled.h1`
   font-size: 30px;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : 'black')};
   width: fit-content;
   margin: 95px auto 0;
 `;
 const StyledPromise = styled.p`
   font-size: 20px;
-  color: ${colors.secondary};
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : colors.secondary)};
   width: fit-content;
   margin: 50px auto 100px;
   padding: 0 30px;
@@ -32,14 +35,17 @@ const Freelances = () => {
     `http://localhost:8000/freelances`
   );
   const profiles = data.freelancersList;
+  const { theme } = useContext(ThemeContext);
 
   if (error) return <span>Désolé il y a eu un problème !</span>;
 
   return (
     <>
       <Header />
-      <StyledTitle>Trouvez votre prestataire</StyledTitle>
-      <StyledPromise>
+      <StyledTitle isDarkMode={theme === 'dark'}>
+        Trouvez votre prestataire
+      </StyledTitle>
+      <StyledPromise isDarkMode={theme === 'dark'}>
         Chez Shiny nous réunissons les meilleurs profils pour vous.
       </StyledPromise>
       {isDataLoading ? (

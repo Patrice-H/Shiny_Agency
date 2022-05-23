@@ -33,6 +33,7 @@ const LeftPart = styled.div`
 `;
 const HomeTitle = styled.h1`
   font-size: 50px;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : 'black')};
   margin: 180px 0 100px 120px;
   @media (max-width: 992px) {
     font-size: 40px;
@@ -83,7 +84,7 @@ function Home() {
       <Header />
       <HomeContainer isDarkMode={theme === 'dark'}>
         <LeftPart>
-          <HomeTitle>
+          <HomeTitle isDarkMode={theme === 'dark'}>
             Repérez vos besoins, on s’occupe du reste, avec les meilleurs
             talents
           </HomeTitle>

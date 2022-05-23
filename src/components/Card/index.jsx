@@ -22,8 +22,8 @@ const CardWrapper = styled.div`
   }
 `;
 const CardLabel = styled.span`
-  color: #5843e4;
   font-size: 22px;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : colors.primary)};
   font-weight: bold;
   margin-top: 30px;
 `;
@@ -35,6 +35,7 @@ const CardImage = styled.img`
 `;
 const CardTitle = styled.span`
   font-size: 25px;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'white' : 'black')};
 `;
 
 const Card = ({ label, title, picture }) => {
@@ -42,9 +43,9 @@ const Card = ({ label, title, picture }) => {
 
   return (
     <CardWrapper isDarkMode={theme === 'dark'}>
-      <CardLabel>{label}</CardLabel>
+      <CardLabel isDarkMode={theme === 'dark'}>{label}</CardLabel>
       <CardImage src={picture} alt="freelance" />
-      <CardTitle>{title}</CardTitle>
+      <CardTitle isDarkMode={theme === 'dark'}>{title}</CardTitle>
     </CardWrapper>
   );
 };
