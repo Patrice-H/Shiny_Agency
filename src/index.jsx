@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Survey from './pages/Survey';
 import Freelances from './pages/Freelances';
 import Results from './pages/Results';
+import Profile from './pages/Profile';
 import Error404 from './pages/Error404';
 import './index.css';
 
@@ -23,6 +24,7 @@ root.render(
             <Route path="/survey/:questionPage" element={<Survey />}></Route>
             <Route path="/freelances" element={<Freelances />}></Route>
             <Route path="/results" element={<Results />}></Route>
+            <Route path="/profile/:profileId" element={<Profile />}></Route>
             <Route path="*" element={<Error404 />}></Route>
           </Routes>
         </SurveyProvider>
