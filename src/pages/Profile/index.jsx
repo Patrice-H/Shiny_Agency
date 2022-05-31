@@ -32,7 +32,7 @@ const ProfilePict = styled.img`
   border-radius: 100px;
 `;
 const ProfileInfo = styled.div`
-  width: 320px;
+  width: 360px;
   position: relative;
   @media (max-width: 768px) {
     text-align: center;
