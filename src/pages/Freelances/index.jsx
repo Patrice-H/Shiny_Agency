@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import Card from '../../components/Card';
 import { Loader } from '../../utils/Atoms';
 import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
 
 const StyledTitle = styled.h1`
   font-size: 30px;
@@ -54,12 +55,17 @@ const Freelances = () => {
         <CardsContainer>
           {profiles &&
             profiles.map((profile, index) => (
-              <Card
-                key={`${profile.name}-${index}`}
-                label={profile.job}
-                picture={profile.picture}
-                title={profile.name}
-              />
+              <Link
+                key={`freelance-${profile.id}`}
+                to={`/profile/${profile.id}`}
+              >
+                <Card
+                  key={`${profile.name}-${index}`}
+                  label={profile.job}
+                  picture={profile.picture}
+                  title={profile.name}
+                />
+              </Link>
             ))}
         </CardsContainer>
       )}
