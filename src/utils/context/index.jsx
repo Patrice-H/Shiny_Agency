@@ -1,11 +1,19 @@
 import { createContext, useState } from 'react';
 
+const localTheme = () => {
+  if (sessionStorage.getItem('theme') === null) {
+    sessionStorage.setItem('theme', 'light')
+  }
+  return sessionStorage.getItem('theme');
+};
+
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(localTheme());
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
+    sessionStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
   };
 
   return (
