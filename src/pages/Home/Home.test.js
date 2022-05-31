@@ -1,5 +1,5 @@
 import Home from './';
-import { screen, render } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import { ThemeProvider } from '../../utils/context';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -36,5 +36,16 @@ describe('Home page integration tests', () => {
     displayRendered();
     const svg = screen.getByText('home-illustration.svg');
     expect(svg).toBeTruthy();
+  });
+
+  test('Should render right img logo depending on the context', () => {
+    displayRendered();
+    const nightModeButton = screen.getByRole('button');
+    const dark = 'dark-logo.png';
+    const light = 'light-logo.png';
+    const img = screen.getByRole('img');
+    expect(img).toHaveAttribute('src', light);
+    fireEvent.click(nightModeButton);
+    expect(img).toHaveAttribute('src', dark);
   });
 });
