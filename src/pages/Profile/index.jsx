@@ -4,6 +4,7 @@ import { useFetch } from '../../utils/hooks';
 import { ThemeContext } from '../../utils/context';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
+import { API_URL } from '../../utils/config';
 import Header from '../../components/Header';
 import { Loader } from '../../utils/Atoms';
 import Tag from '../../components/Tag';
@@ -90,7 +91,7 @@ const ProfilePrice = styled.p`
 const Profile = () => {
   const { profileId } = useParams();
   const { data, isDataLoading, error } = useFetch(
-    `http://localhost:8000/freelance/?id=${profileId}`
+    `${API_URL}/freelance/?id=${profileId}`
   );
   const profile = data.freelanceData;
   const { theme } = useContext(ThemeContext);
