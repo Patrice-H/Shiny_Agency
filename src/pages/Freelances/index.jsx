@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import { useFetch } from '../../utils/hooks';
 import { ThemeContext } from '../../utils/context';
+import { API_URL } from '../../utils/config';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import { Loader } from '../../utils/Atoms';
@@ -32,9 +33,7 @@ const CardsContainer = styled.div`
 `;
 
 const Freelances = () => {
-  const { data, isDataLoading, error } = useFetch(
-    `http://localhost:8000/freelances`
-  );
+  const { data, isDataLoading, error } = useFetch(`${API_URL}/freelances`);
   const profiles = data.freelancersList;
   const { theme } = useContext(ThemeContext);
 

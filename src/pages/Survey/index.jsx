@@ -5,6 +5,7 @@ import colors from '../../utils/style/colors';
 import { SurveyContext } from '../../utils/context';
 import { ThemeContext } from '../../utils/context';
 import { useFetch } from '../../utils/hooks';
+import { API_URL } from '../../utils/config';
 import Header from '../../components/Header';
 import { Loader } from '../../utils/Atoms';
 import Footer from '../../components/Footer';
@@ -71,7 +72,7 @@ const Survey = () => {
   const previousLink = `/survey/${questionNumber - 1}`;
   const nextLink = `/survey/${questionNumber + 1}`;
   const { answers, saveAnswers } = useContext(SurveyContext);
-  const { data, isDataLoading } = useFetch(`http://localhost:8000/survey`);
+  const { data, isDataLoading } = useFetch(`${API_URL}/survey`);
   const { surveyData } = data;
   const { theme } = useContext(ThemeContext);
 
