@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/Shiny_Agency/static/css/main.2efa84eb.css",
+    "main.js": "/Shiny_Agency/static/js/main.30b9ef67.js",
+    "static/media/undraw_missed_chances.svg": "/Shiny_Agency/static/media/undraw_missed_chances.9e4ef049bf88c81c5579896a14c78142.svg",
+    "static/media/404.svg": "/Shiny_Agency/static/media/404.34a330496d566b0fdddf9f84c652bd9a.svg",
+    "static/media/profile.png": "/Shiny_Agency/static/media/profile.eed90a2773508524a872.png",
+    "static/media/home-illustration.svg": "/Shiny_Agency/static/media/home-illustration.330e92a4734bf626bcdc1c2d90e2f6e2.svg",
+    "index.html": "/Shiny_Agency/index.html",
+    "main.2efa84eb.css.map": "/Shiny_Agency/static/css/main.2efa84eb.css.map",
+    "main.30b9ef67.js.map": "/Shiny_Agency/static/js/main.30b9ef67.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2efa84eb.css",
+    "static/js/main.30b9ef67.js"
+  ]
+}
